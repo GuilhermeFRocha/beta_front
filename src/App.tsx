@@ -5,7 +5,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import useAuthStore from "./hooks/useAuth";
-import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { useEffect } from "react";
 import { DashboardPage } from "./pages/Dashboard";
@@ -23,7 +22,6 @@ export default function App() {
     <Router>
       <Routes>
         {/* Rotas públicas */}
-        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         {/* Rotas privadas */}
