@@ -10,6 +10,7 @@ import { Register } from "./pages/Register";
 import { useEffect } from "react";
 import { DashboardPage } from "./pages/Dashboard";
 import { ProfilePage } from "./pages/ProfilePage";
+import './index.css'
 
 export default function App() {
   const { isAuthenticated, checkAuthStatus } = useAuthStore();
