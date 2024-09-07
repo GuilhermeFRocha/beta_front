@@ -5,7 +5,8 @@ import * as Yup from 'yup'
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { FaGithub, FaGoogle } from 'react-icons/fa'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Loading } from "../../components/Loading";
 
 interface SignValues {
   email: string;
@@ -13,6 +14,7 @@ interface SignValues {
 }
 
 export const Register = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { registerUser, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
@@ -28,8 +30,10 @@ export const Register = () => {
   })
 
   const handleSubmit = async (values: SignValues, { setSubmitting }: FormikHelpers<SignValues>) => {
+    setIsLoading(true);
     await registerUser(values);
     setSubmitting(false); 
+    setIsLoading(false)
   };
 
   return (
@@ -80,7 +84,7 @@ export const Register = () => {
                 }`}
                 disabled={!isValid || !dirty || isSubmitting}
               >
-                {'Register'}
+                {isLoading ? <Loading size="small" color="#fff" speed="normal" className="my-custom-class" /> : 'Register'}
               </Button>
           </Form>
           )
@@ -114,7 +118,7 @@ export const Register = () => {
         </div>
         <p className="mt-8 text-center text-sm text-gray-400">
         Already have an account? {" "} 
-          <a href="#" className="font-medium text-purple-400 hover:text-purple-300">
+          <a href="/login" className="font-medium text-purple-400 hover:text-purple-300">
             Sign in
           </a>
         </p>
