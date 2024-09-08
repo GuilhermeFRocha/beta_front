@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../../hooks/useAuth";
 import { Formik, Form, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
@@ -7,6 +7,7 @@ import { Button } from "../../components/Button";
 import { FaGithub, FaGoogle } from 'react-icons/fa'
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
+import { ToastContainer } from 'react-toastify';
 
 interface SignValues {
   email: string;
@@ -90,6 +91,7 @@ export const Register = () => {
           )
         }
       </Formik>
+      <ToastContainer />
       <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -118,9 +120,9 @@ export const Register = () => {
         </div>
         <p className="mt-8 text-center text-sm text-gray-400">
         Already have an account? {" "} 
-          <a href="/login" className="font-medium text-purple-400 hover:text-purple-300">
+          <Link to="/login" className="font-medium text-purple-400 hover:text-purple-300">
             Sign in
-          </a>
+          </Link>
         </p>
       </div>
     </div>

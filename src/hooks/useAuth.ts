@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import create from "zustand";
 
 interface AuthState {
@@ -15,10 +16,11 @@ const useAuthStore = create<AuthState>((set) => ({
       const response = await axios.post("http://localhost:8000/users", body);
 
       if (response.status === 201) {
+        toast.success("Registration successful!");
         set({ isAuthenticated: true });
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Already registered user!");
       set({ isAuthenticated: false });
     }
   },
