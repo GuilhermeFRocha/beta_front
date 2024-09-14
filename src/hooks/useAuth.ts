@@ -1,9 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import create from "zustand";
-import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 interface AuthState {
   registerUser: (body: any) => Promise<void>;

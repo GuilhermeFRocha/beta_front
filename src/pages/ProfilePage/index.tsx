@@ -1,7 +1,9 @@
+import { Sidebar } from "../../components/Sidebar";
+
 export const ProfilePage = () => {
   return (
-    <div>
-      <h1>Profile</h1>
+    <div className="flex h-screen bg-gray-100">
+      <Sidebar />
     </div>
   );
 };
