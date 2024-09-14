@@ -14,7 +14,6 @@ import { Button } from "../../components/Button";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
-import { ToastContainer } from "react-toastify";
 
 interface SignValues {
   email: string;
@@ -127,7 +126,6 @@ export const Register = () => {
             </Form>
           )}
         </Formik>
-        <ToastContainer />
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">

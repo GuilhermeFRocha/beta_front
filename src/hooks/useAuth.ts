@@ -10,10 +10,15 @@ interface AuthState {
   isTokenValid: () => boolean;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
-  registerUser: async (body) => {
+interface FormProps {
+  email: string;
+  password: string;
+}
+
+const useAuthStore = create<AuthState>(() => ({
+  registerUser: async (body: FormProps) => {
     try {
-      const response = await axios.post("http://localhost:8000/users", body);
+      const response = await axios.post("http://localhost:8000/register", body);
       if (response.status === 201) {
         toast.success("Registration successful!");
         localStorage.setItem("token", response.data.token);
@@ -22,7 +27,7 @@ const useAuthStore = create<AuthState>((set) => ({
       toast.error("Already registered user!");
     }
   },
-  loginUser: async (body: any) => {
+  loginUser: async (body: FormProps) => {
     try {
       const response = await axios.post("http://localhost:8000/login", body);
       if (response.status === 200) {
