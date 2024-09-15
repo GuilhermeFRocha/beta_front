@@ -17,6 +17,7 @@ interface AuthState {
   isTokenValid: () => boolean;
   getTransactions: (userId: number) => Promise<any>;
   fetchUserFromToken: () => void;
+  createTransaction: (userId: any, transactionData: any) => Promise<any>;
 }
 
 interface FormProps {
@@ -75,6 +76,19 @@ const useAuthStore = create<AuthState>((set) => ({
       throw error;
     }
   },
+  createTransaction: async (userId: number, transactionData: any) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/transaction/" + userId,
+        transactionData
+      );
+      return response.data;
+    } catch (error) {
+      toast.error("Error fetching transactions");
+      throw error;
+    }
+  },
+
   fetchUserFromToken: () => {
     const token = localStorage.getItem("token");
     if (token) {

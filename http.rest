@@ -1,4 +1,4 @@
-## CREATE USERS
+# # CREATE USERS
 # POST http://localhost:8000/users
 # Content-Type: application/json
 
@@ -10,4 +10,15 @@
 
 
 # GET USERS
-GET http://localhost:8000/transaction/132
+# GET http://localhost:8000/transaction/132
+
+POST http://localhost:8000/transaction/132
+Content-Type: application/json
+
+ {
+  "type": "expense",
+  "amount": 1000,
+  "category": "Transporte",
+  "date": "2025-02-09",
+  "description": "Gasolina"
+}

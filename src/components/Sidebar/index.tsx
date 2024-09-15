@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, User, LogOut, ChevronLeft } from "lucide-react";
+import { Home, User, LogOut, ChevronLeft, DollarSign } from "lucide-react";
 import { Button } from "../Button";
 import useAuthStore from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -64,14 +64,14 @@ export const Sidebar = () => {
                 isCollapsed ? "justify-center" : ""
               }`}
             >
-              <User
+              <DollarSign
                 className={`w-5 h-5 ${
                   location.pathname === "/profile"
                     ? "text-purple-500 hover:bg-gray-800 hover text-white"
                     : "text-gray-300 hover:bg-gray-800 hover:text-white"
                 }`}
               />
-              {!isCollapsed && <span className="ml-3">Transacoes</span>}
+              {!isCollapsed && <span className="ml-3">Transactions</span>}
             </Link>
           </li>
 
