@@ -2,12 +2,21 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import create from "zustand";
 
+interface User {
+  id: number;
+  email: string;
+  role: string;
+}
+
 interface AuthState {
+  user: User | null;
   registerUser: (body: any) => Promise<void>;
   loginUser: (body: any) => Promise<void>;
   logout: () => void;
   getToken: () => string | null;
   isTokenValid: () => boolean;
+  getTransactions: (userId: number) => Promise<any>;
+  fetchUserFromToken: () => void;
 }
 
 interface FormProps {
@@ -15,7 +24,8 @@ interface FormProps {
   password: string;
 }
 
-const useAuthStore = create<AuthState>(() => ({
+const useAuthStore = create<AuthState>((set) => ({
+  user: null,
   registerUser: async (body: FormProps) => {
     try {
       const response = await axios.post("http://localhost:8000/register", body);
@@ -52,6 +62,28 @@ const useAuthStore = create<AuthState>(() => ({
       return decodedToken.exp > currentTime;
     } catch {
       return false;
+    }
+  },
+  getTransactions: async (userId: number) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/transaction/" + userId
+      );
+      return response.data;
+    } catch (error) {
+      toast.error("Error fetching transactions");
+      throw error;
+    }
+  },
+  fetchUserFromToken: () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decodedToken: any = JSON.parse(atob(token.split(".")[1]));
+        set(() => ({ user: decodedToken }));
+      } catch (error) {
+        toast.error("Erro ao decodificar o token");
+      }
     }
   },
 }));

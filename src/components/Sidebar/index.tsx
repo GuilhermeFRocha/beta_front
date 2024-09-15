@@ -71,7 +71,7 @@ export const Sidebar = () => {
                     : "text-gray-300 hover:bg-gray-800 hover:text-white"
                 }`}
               />
-              {!isCollapsed && <span className="ml-3">Profile</span>}
+              {!isCollapsed && <span className="ml-3">Transacoes</span>}
             </Link>
           </li>
 

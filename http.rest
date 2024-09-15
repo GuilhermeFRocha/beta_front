@@ -1,13 +1,13 @@
 ## CREATE USERS
-POST http://localhost:8000/users
-Content-Type: application/json
+# POST http://localhost:8000/users
+# Content-Type: application/json
 
- {
-  "username": "exaasdasdmasdpleUser",
-  "password": "examasdasdasdplePass",
-  "email": "exaasasdasddmple@example.com"
-}
+#  {
+#   "username": "exaasdasdmasdpleUser",
+#   "password": "examasdasdasdplePass",
+#   "email": "exaasasdasddmple@example.com"
+# }
 
 
-## GET USERS
-# GET http://localhost:8000/users
+# GET USERS
+GET http://localhost:8000/transaction/132
