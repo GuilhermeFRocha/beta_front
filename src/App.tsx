@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { DashboardPage } from "./pages/Dashboard";
-import { ProfilePage } from "./pages/ProfilePage";
+import { Transactions } from "./pages/Transactions";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -29,10 +29,10 @@ export default function App() {
           }
         />
         <Route
-          path="/profile"
+          path="/transactions"
           element={
             <ProtectedRoute>
-              <ProfilePage />
+              <Transactions />
             </ProtectedRoute>
           }
         />

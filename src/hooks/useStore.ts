@@ -8,7 +8,7 @@ interface User {
   role: string;
 }
 
-interface AuthState {
+interface StoreState {
   user: User | null;
   registerUser: (body: any) => Promise<void>;
   loginUser: (body: any) => Promise<void>;
@@ -25,7 +25,7 @@ interface FormProps {
   password: string;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<StoreState>((set) => ({
   user: null,
   registerUser: async (body: FormProps) => {
     try {

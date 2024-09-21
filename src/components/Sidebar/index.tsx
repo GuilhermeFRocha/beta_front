@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, User, LogOut, ChevronLeft, DollarSign } from "lucide-react";
 import { Button } from "../Button";
-import useAuthStore from "../../hooks/useAuth";
+import useAuthStore from "../../hooks/useStore";
 import { useNavigate } from "react-router-dom";
 import useSidebarStore from "../../hooks/useSideBar";
 
@@ -59,14 +59,14 @@ export const Sidebar = () => {
           </li>
           <li>
             <Link
-              to="/profile"
+              to="/transactions"
               className={`flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200 ${
                 isCollapsed ? "justify-center" : ""
               }`}
             >
               <DollarSign
                 className={`w-5 h-5 ${
-                  location.pathname === "/profile"
+                  location.pathname === "/transactions"
                     ? "text-purple-500 hover:bg-gray-800 hover text-white"
                     : "text-gray-300 hover:bg-gray-800 hover:text-white"
                 }`}

@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
-import useAuthStore from "../../hooks/useAuth";
+import useAuthStore from "../../hooks/useStore";
 
 interface ProtectedRouteProps {
   children: ReactElement;

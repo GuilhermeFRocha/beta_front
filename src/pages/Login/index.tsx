@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
-import useAuthStore from "../../hooks/useAuth";
+import useAuthStore from "../../hooks/useStore";
 
 interface LoginValues {
   email: string;

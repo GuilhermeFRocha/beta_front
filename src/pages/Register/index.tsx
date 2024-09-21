@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import useAuthStore from "../../hooks/useAuth";
+import useAuthStore from "../../hooks/useStore";
 import {
   Formik,
   Form,
