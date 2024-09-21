@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import useAuthStore from "../../hooks/useStore";
+import useStore from "../../hooks/useStore";
 import { Sidebar } from "../../components/Sidebar";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { Button } from "../../components/Button";
+import Modal from "../../components/Modal";
 
-interface TransactionProps {
+export interface TransactionProps {
   id: number;
   description: string;
-  amount: string;
+  amount: number;
   category: string;
   type: string;
   date: string;
@@ -21,15 +22,24 @@ interface TransactionProps {
 
 interface ValuesSubmitProps {
   description: string;
-  amount: string;
+  amount: number;
   category: string;
   type: string;
 }
 
 export const Transactions = () => {
-  const { user, getTransactions, fetchUserFromToken, createTransaction } =
-    useAuthStore();
+  const {
+    user,
+    getTransactions,
+    fetchUserFromToken,
+    createTransaction,
+    deleteTransaction,
+  } = useStore();
   const [transactions, setTransactions] = useState<TransactionProps[]>([]);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [deleteTransactionId, setDeleteTransactionId] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     // Carregar o usuário do token quando a página for recarregada
@@ -55,16 +65,18 @@ export const Transactions = () => {
       ...values,
       date: new Date().toISOString().split("T")[0],
     };
-    try {
-      await createTransaction(user?.id, transactionData);
-      toast.success("Transaction created successfully!");
-      setTransactions((prevTransactions: any) => [
-        transactionData,
-        ...prevTransactions,
-      ]);
-      resetForm();
-    } catch (error) {
-      toast.error("Error creating transaction");
+    if (user?.id !== undefined) {
+      try {
+        await createTransaction(user?.id, transactionData);
+        toast.success("Transaction created successfully!");
+        setTransactions((prevTransactions: TransactionProps[]) => [
+          transactionData as TransactionProps,
+          ...prevTransactions,
+        ]);
+        resetForm();
+      } catch (error) {
+        toast.error("Error creating transaction");
+      }
     }
   }
 
@@ -72,7 +84,7 @@ export const Transactions = () => {
     type: "",
     category: "",
     description: "",
-    amount: "",
+    amount: 0,
   };
 
   const validationSchema = Yup.object({
@@ -84,14 +96,12 @@ export const Transactions = () => {
       .positive("Amount must be positive"),
   });
 
-  const deleteTransaction = async () => {};
-
   const editTransaction = async (id: number) => {
     console.log(id);
   };
 
   const formatNumber = (number: number) => {
-    const numStr = number.toString();
+    const numStr = Math.trunc(number).toString();
     const length = numStr.length;
 
     // Define o índice onde o ponto deve ser inserido, dependendo do tamanho do número
@@ -112,6 +122,15 @@ export const Transactions = () => {
     .reduce((total, transaction) => total + Number(transaction.amount), 0);
 
   const profit = incomeAll - expenseAll;
+
+  async function handleDeleteSubmit() {
+    if (deleteTransactionId !== null) {
+      await deleteTransaction(deleteTransactionId);
+      setModalOpen(false);
+      setDeleteTransactionId(null); // Limpa o ID após a exclusão
+      setTransactions(transactions.filter((t) => t.id !== deleteTransactionId)); // Remove a transação da lista
+    }
+  }
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -243,6 +262,15 @@ export const Transactions = () => {
           </Formik>
         </div>
 
+        <div>
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => setModalOpen(false)}
+            title="Tem certeza que deseja excluir?"
+            onSubmit={handleDeleteSubmit}
+          />
+        </div>
+
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="p-6">
             <h2 className="text-xl font-semibold mb-4">Transactions</h2>
@@ -280,7 +308,7 @@ export const Transactions = () => {
                     {transaction.description}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {`R$ ${transaction.amount}`}
+                    {formatNumber(transaction.amount)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
                     <Button
@@ -290,7 +318,10 @@ export const Transactions = () => {
                       <Pencil className="h-4 w-4" />
                     </Button>
                     <Button
-                      onClick={deleteTransaction}
+                      onClick={() => {
+                        setDeleteTransactionId(transaction.id);
+                        setModalOpen(true);
+                      }}
                       className="text-red-600 hover:text-red-900"
                     >
                       <Trash2 className="h-4 w-4" />

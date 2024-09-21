@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import useAuthStore from "../../hooks/useStore";
+import useAuth from "../../hooks/useAuth";
 import {
   Formik,
   Form,
@@ -22,7 +22,7 @@ interface SignValues {
 
 export const Register = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { registerUser, isTokenValid } = useAuthStore();
+  const { registerUser, isTokenValid } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

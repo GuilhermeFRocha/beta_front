@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
-import useAuthStore from "../../hooks/useStore";
+import useAuth from "../../hooks/useAuth";
 
 interface LoginValues {
   email: string;
@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
 
 export const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { loginUser, isTokenValid } = useAuthStore();
+  const { loginUser, isTokenValid } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

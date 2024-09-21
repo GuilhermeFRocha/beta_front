@@ -1,14 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, User, LogOut, ChevronLeft, DollarSign } from "lucide-react";
+import { Home, LogOut, ChevronLeft, DollarSign } from "lucide-react";
 import { Button } from "../Button";
-import useAuthStore from "../../hooks/useStore";
+import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import useSidebarStore from "../../hooks/useSideBar";
 
 export const Sidebar = () => {
   const { isCollapsed, toggleCollapse } = useSidebarStore();
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const { logout } = useAuth();
   const location = useLocation();
 
   const handleLogOut = () => {

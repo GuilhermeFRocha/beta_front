@@ -1,13 +1,13 @@
 import { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
-import useAuthStore from "../../hooks/useStore";
+import useAuth from "../../hooks/useAuth";
 
 interface ProtectedRouteProps {
   children: ReactElement;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isTokenValid } = useAuthStore();
+  const { isTokenValid } = useAuth();
 
   if (!isTokenValid()) {
     return <Navigate to="/login" />;

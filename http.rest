@@ -12,13 +12,4 @@
 # GET USERS
 # GET http://localhost:8000/transaction/132
 
-POST http://localhost:8000/transaction/132
-Content-Type: application/json
-
- {
-  "type": "expense",
-  "amount": 2000,
-  "category": "Transporte",
-  "date": "2025-02-09",
-  "description": "Gasolina"
-}
+DELETE  http://localhost:8000/transaction/28
