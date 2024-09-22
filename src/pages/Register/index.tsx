@@ -8,12 +8,13 @@ import {
   FieldProps,
   FormikHelpers,
 } from "formik";
-import * as Yup from "yup";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
+import { validationSchemaRegister } from "../utils/validationSchema";
+import { initialValuesRegister } from "../utils/initialValues";
 
 interface SignValues {
   email: string;
@@ -30,13 +31,6 @@ export const Register = () => {
       navigate("/dashboard");
     }
   }, [isTokenValid, navigate]);
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-  });
 
   const handleSubmit = async (
     values: SignValues,
@@ -59,8 +53,8 @@ export const Register = () => {
           Sign up to Beta
         </h2>
         <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={validationSchema}
+          initialValues={initialValuesRegister}
+          validationSchema={validationSchemaRegister}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, isValid, isSubmitting, dirty }) => (

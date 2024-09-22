@@ -1,32 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import create from "zustand";
-import { TransactionProps } from "../pages/Transactions";
-
-interface Transaction {
-  id: number;
-  amount: number;
-  description: string;
-  date: string;
-  type: "income" | "expense";
-}
-
-interface User {
-  id: number;
-  email: string;
-  role: string;
-}
-
-interface StoreState {
-  user: User | null;
-  getTransactions: (userId: number) => Promise<TransactionProps[]>;
-  fetchUserFromToken: () => void;
-  createTransaction: (
-    userId: number,
-    transactionData: any
-  ) => Promise<Transaction>;
-  deleteTransaction: (userId: number) => Promise<void>;
-}
+import { StoreState, Transaction, User } from "../utils/interfaces";
 
 const useStore = create<StoreState>((set) => ({
   user: null,

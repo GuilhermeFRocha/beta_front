@@ -1,19 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import create from "zustand";
-
-interface AuthState {
-  registerUser: (body: FormProps) => Promise<void>;
-  loginUser: (body: FormProps) => Promise<void>;
-  logout: () => void;
-  getToken: () => string | null;
-  isTokenValid: () => boolean;
-}
-
-interface FormProps {
-  email: string;
-  password: string;
-}
+import { AuthState, FormProps } from "../utils/interfaces";
 
 const useAuth = create<AuthState>(() => ({
   registerUser: async (body: FormProps) => {

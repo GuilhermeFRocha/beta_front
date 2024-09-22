@@ -2,30 +2,13 @@ import { useEffect, useState } from "react";
 import useStore from "../../hooks/useStore";
 import { Sidebar } from "../../components/Sidebar";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { Button } from "../../components/Button";
 import Modal from "../../components/Modal";
-
-export interface TransactionProps {
-  id: number;
-  description: string;
-  amount: number;
-  category: string;
-  type: string;
-  date: string;
-  user_id: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface ValuesSubmitProps {
-  description: string;
-  amount: number;
-  category: string;
-  type: string;
-}
+import { TransactionProps, ValuesSubmitProps } from "../../utils/interfaces";
+import { validationSchemaTransactions } from "../utils/validationSchema";
+import { initialValuesTransactions } from "../utils/initialValues";
 
 export const Transactions = () => {
   const {
@@ -80,25 +63,19 @@ export const Transactions = () => {
     }
   }
 
-  const initialValues = {
-    type: "",
-    category: "",
-    description: "",
-    amount: 0,
-  };
-
-  const validationSchema = Yup.object({
-    type: Yup.string().required("Type is required"),
-    category: Yup.string().required("Category is required"),
-    description: Yup.string().required("Description is required"),
-    amount: Yup.number()
-      .required("Amount is required")
-      .positive("Amount must be positive"),
-  });
-
   const editTransaction = async (id: number) => {
     console.log(id);
   };
+
+  async function handleDeleteSubmit() {
+    if (deleteTransactionId !== null) {
+      await deleteTransaction(deleteTransactionId);
+      setModalOpen(false);
+      setDeleteTransactionId(null); // Limpa o ID após a exclusão
+      setTransactions(transactions.filter((t) => t.id !== deleteTransactionId)); // Remove a transação da lista
+      toast.success("Transaction deleted successfully!");
+    }
+  }
 
   const formatNumber = (number: number) => {
     const numStr = Math.trunc(number).toString();
@@ -122,15 +99,6 @@ export const Transactions = () => {
     .reduce((total, transaction) => total + Number(transaction.amount), 0);
 
   const profit = incomeAll - expenseAll;
-
-  async function handleDeleteSubmit() {
-    if (deleteTransactionId !== null) {
-      await deleteTransaction(deleteTransactionId);
-      setModalOpen(false);
-      setDeleteTransactionId(null); // Limpa o ID após a exclusão
-      setTransactions(transactions.filter((t) => t.id !== deleteTransactionId)); // Remove a transação da lista
-    }
-  }
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -159,8 +127,8 @@ export const Transactions = () => {
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Add New Transaction</h2>
           <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
+            initialValues={initialValuesTransactions}
+            validationSchema={validationSchemaTransactions}
             onSubmit={handleSubmit}
             enableReinitialize
           >

@@ -9,21 +9,17 @@ import {
   FormikHelpers,
   FieldProps,
 } from "formik";
-import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components/Loading";
 import useAuth from "../../hooks/useAuth";
+import { validationSchemaLogin } from "../utils/validationSchema";
+import { initialValuesLogin } from "../utils/initialValues";
 
 interface LoginValues {
   email: string;
   password: string;
 }
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string().required("Password is required"),
-});
 
 export const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -57,8 +53,8 @@ export const Login = () => {
           Log in to Beta
         </h2>
         <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={validationSchema}
+          initialValues={initialValuesLogin}
+          validationSchema={validationSchemaLogin}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, isValid, isSubmitting, dirty }) => (
