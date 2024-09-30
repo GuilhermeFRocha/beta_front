@@ -211,6 +211,11 @@ export const Transactions = () => {
                       id="amount"
                       placeholder="Insert amount"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none"
+                      onKeyPress={(e: React.KeyboardEvent) => {
+                        if (!/[0-9]/.test(e.key) && e.key !== "Backspace") {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                     <ErrorMessage
                       name="amount"

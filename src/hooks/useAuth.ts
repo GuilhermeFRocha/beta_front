@@ -2,11 +2,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import create from "zustand";
 import { AuthState, FormProps } from "../utils/interfaces";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const useAuth = create<AuthState>(() => ({
   registerUser: async (body: FormProps) => {
     try {
-      const response = await axios.post("http://localhost:8000/register", body);
+      const response = await axios.post(`${baseUrl}/register`, body);
       if (response.status === 201) {
         toast.success("Registration successful!");
         localStorage.setItem("token", response.data.token);
@@ -17,7 +18,7 @@ const useAuth = create<AuthState>(() => ({
   },
   loginUser: async (body: FormProps) => {
     try {
-      const response = await axios.post("http://localhost:8000/login", body);
+      const response = await axios.post(`${baseUrl}/login`, body);
       if (response.status === 200) {
         toast.success("Login successful!");
         localStorage.setItem("token", response.data.token);

@@ -2,14 +2,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import create from "zustand";
 import { StoreState, Transaction, User } from "../utils/interfaces";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const useStore = create<StoreState>((set) => ({
   user: null,
   getTransactions: async (userId: number) => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/transaction/" + userId
-      );
+      const response = await axios.get(`${baseUrl}/transaction/${userId}`);
       return response.data;
     } catch (error) {
       toast.error("Error fetching transactions");
@@ -19,7 +18,7 @@ const useStore = create<StoreState>((set) => ({
   createTransaction: async (userId: number, transactionData: Transaction) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/transaction/" + userId,
+        `${baseUrl}/transaction/${userId}`,
         transactionData
       );
       return response.data;
@@ -32,7 +31,7 @@ const useStore = create<StoreState>((set) => ({
   deleteTransaction: async (transactionId: number) => {
     try {
       const response = await axios.delete(
-        "http://localhost:8000/transaction/" + transactionId
+        `${baseUrl}/transaction/${transactionId}`
       );
       return response.data;
     } catch (error) {
