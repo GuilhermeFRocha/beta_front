@@ -9,6 +9,7 @@ import Modal from "../../components/Modal";
 import { TransactionProps, ValuesSubmitProps } from "../../utils/interfaces";
 import { validationSchemaTransactions } from "../utils/validationSchema";
 import { initialValuesTransactions } from "../utils/initialValues";
+import { ModalForm } from "../../components/ModalForm";
 
 export const Transactions = () => {
   const {
@@ -17,12 +18,17 @@ export const Transactions = () => {
     fetchUserFromToken,
     createTransaction,
     deleteTransaction,
+    editTransaction,
   } = useStore();
   const [transactions, setTransactions] = useState<TransactionProps[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [deleteTransactionId, setDeleteTransactionId] = useState<number | null>(
     null
   );
+  const [editingTransaction, setEditingTransaction] = useState<
+    TransactionProps | any
+  >(null);
 
   useEffect(() => {
     // Carregar o usuário do token quando a página for recarregada
@@ -50,21 +56,39 @@ export const Transactions = () => {
     };
     if (user?.id !== undefined) {
       try {
-        await createTransaction(user?.id, transactionData);
-        toast.success("Transaction created successfully!");
-        setTransactions((prevTransactions: TransactionProps[]) => [
-          transactionData as TransactionProps,
-          ...prevTransactions,
-        ]);
-        resetForm();
+        const resTransaction = await createTransaction(
+          user?.id,
+          transactionData
+        );
+
+        // Verifique se o resTransaction contém os dados da transação
+        if (resTransaction) {
+          // Atualize as transações com o dado retornado pela API
+          setTransactions((prevTransactions: TransactionProps[]) => [
+            resTransaction as TransactionProps, // Utilize o retorno da API
+            ...prevTransactions,
+          ]);
+          toast.success("Transaction created successfully!");
+          resetForm();
+        }
       } catch (error) {
         toast.error("Error creating transaction");
       }
     }
   }
 
-  const editTransaction = async (id: number) => {
-    console.log(id);
+  const handleEditTransaction = async (transaction: TransactionProps) => {
+    if (transaction) {
+      await editTransaction(transaction).then((res) => {
+        setTransactions((prevTransactions: TransactionProps[]) =>
+          prevTransactions.map((t) =>
+            t.id === transaction.id ? { ...t, ...res } : t
+          )
+        );
+        toast.success("Transaction updated successfully!");
+      });
+      setEditModalOpen(false);
+    }
   };
 
   async function handleDeleteSubmit() {
@@ -286,7 +310,10 @@ export const Transactions = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
                     <Button
                       className="text-indigo-600 hover:text-indigo-900 mr-2"
-                      onClick={() => editTransaction(transaction.id)}
+                      onClick={() => {
+                        setEditingTransaction(transaction);
+                        setEditModalOpen(true);
+                      }}
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
@@ -304,6 +331,14 @@ export const Transactions = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        <div>
+          <ModalForm
+            isOpen={isEditModalOpen}
+            initialValues={editingTransaction}
+            onClose={() => setEditModalOpen(false)}
+            onSubmit={handleEditTransaction}
+          />
         </div>
       </div>
     </div>

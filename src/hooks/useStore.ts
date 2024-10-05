@@ -40,6 +40,16 @@ const useStore = create<StoreState>((set) => ({
     }
   },
 
+  editTransaction: async (transaction: number) => {
+    try {
+      const response = await axios.put(`${baseUrl}/transaction`, transaction);
+      return response.data;
+    } catch (error) {
+      toast.error("Error fetching transactions");
+      throw error;
+    }
+  },
+
   fetchUserFromToken: () => {
     const token = localStorage.getItem("token");
     if (token) {

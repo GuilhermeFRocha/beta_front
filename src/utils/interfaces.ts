@@ -45,6 +45,7 @@ export interface StoreState {
     transactionData: any
   ) => Promise<Transaction>;
   deleteTransaction: (userId: number) => Promise<void>;
+  editTransaction: (transactionData: any) => Promise<Transaction>;
 }
 
 export interface Transaction {
