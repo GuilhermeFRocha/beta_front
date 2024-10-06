@@ -24,7 +24,7 @@ export const ModalForm: React.FC<EditTransactionModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+      <div className="bg-white rounded-lg p-6 max-w-lg w-full max-sm:w-auto">
         <h2 className="text-xl font-semibold mb-4">Edit Transaction</h2>
         <Formik
           initialValues={initialValues}

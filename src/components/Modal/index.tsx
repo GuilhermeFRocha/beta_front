@@ -13,10 +13,10 @@ const Modal = ({ isOpen, onClose, title, onSubmit }: ModalProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+      <div className="relative w-full max-w-lg p-6 bg-white rounded-lg shadow-lg max-sm:w-auto">
         <Button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+          className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 max-sm:top-1 max-sm:right-1"
         >
           <CircleX className="w-6 h-6" />
         </Button>

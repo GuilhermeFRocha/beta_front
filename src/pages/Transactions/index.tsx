@@ -272,7 +272,9 @@ export const Transactions = () => {
           <div className="p-6">
             <h2 className="text-xl font-semibold mb-4">Transactions</h2>
           </div>
-          <table className="min-w-full divide-y divide-gray-200">
+
+          {/* Tabela para telas maiores */}
+          <table className="min-w-full divide-y divide-gray-200 hidden sm:table">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -331,6 +333,56 @@ export const Transactions = () => {
               ))}
             </tbody>
           </table>
+
+          {/* Layout responsivo para telas menores */}
+          <div className="block sm:hidden">
+            {transactions.map((transaction: TransactionProps) => (
+              <div
+                key={transaction.id}
+                className="bg-white border rounded-lg mb-4 p-4 shadow"
+              >
+                <div className="flex justify-between mb-2">
+                  <span className="font-semibold">Type:</span>
+                  <span>{transaction.type}</span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="font-semibold">Category:</span>
+                  <span>{transaction.category}</span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="font-semibold">Description:</span>
+                  <span>{transaction.description}</span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="font-semibold">Amount:</span>
+                  <span>{formatNumber(transaction.amount)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold">Actions:</span>
+                  <div>
+                    <Button
+                      className="text-indigo-600 hover:text-indigo-900 mr-2"
+                      onClick={() => {
+                        setEditingTransaction(transaction);
+                        setEditModalOpen(true);
+                      }}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setDeleteTransactionId(transaction.id);
+                        setModalOpen(true);
+                      }}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         <div>
           <ModalForm
