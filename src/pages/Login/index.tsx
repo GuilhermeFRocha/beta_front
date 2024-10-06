@@ -48,7 +48,7 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-sm max-sm:w-auto">
         <h2 className="text-3xl font-bold text-center text-white mb-6">
           Log in to Beta
         </h2>

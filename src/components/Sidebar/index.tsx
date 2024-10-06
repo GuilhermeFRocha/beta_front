@@ -19,8 +19,8 @@ export const Sidebar = () => {
   return (
     <aside
       className={`${
-        isCollapsed ? "w-16" : "w-64"
-      } bg-gray-900 text-gray-100 h-screen transition-all duration-500 ease-in-out relative`}
+        isCollapsed ? "w-16" : "w-auto"
+      } bg-gray-900 text-gray-100 transition-all duration-500 ease-in-out relative`}
     >
       <div className="p-4 flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-purple-500">Beta</h1>
